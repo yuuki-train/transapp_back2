@@ -36,14 +36,9 @@ public class SearchDAO {
 
     private List<Document> createTrainList(FindIterable<Document> findTrainsIterable){
         List<Document> trainList = new ArrayList<>();
-        /*
         for (Document doc : findTrainsIterable) {
-            System.out.println("BOK");
             trainList.add(doc);
         }
-
-         */
-        System.out.println("BOK");
         return trainList;
     }
 

@@ -1,6 +1,5 @@
-package com.example.transapp_back2.Logic;
+package com.example.transapp_back2.mongodb;
 
-import com.example.transapp_back2.entity.DataBase;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;

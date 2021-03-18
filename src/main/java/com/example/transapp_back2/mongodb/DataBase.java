@@ -1,30 +1,30 @@
-package com.example.transapp_back2.entity;
+package com.example.transapp_back2.mongodb;
 
-public class DataBase {
+class DataBase {
     private final String userName;
     private final String userPass;
     private final String dataBaseName;
     private String dataBaseCollection;
 
-    public DataBase(){
+    DataBase(){
         this.userName = "yuuki";
         this.userPass = "yuukidb";
         this.dataBaseName = "transapp";
     }
 
-    public String getDataBaseName(){
+    String getDataBaseName(){
         return dataBaseName;
     }
 
-    public String getDataBaseCollection(){
+    String getDataBaseCollection(){
         return dataBaseCollection;
     }
 
-    public void setDataBaseCollection(String dbCollection){
+    void setDataBaseCollection(String dbCollection){
         this.dataBaseCollection = dbCollection;
     }
 
-    public String getConnectionURL(){
+    String getConnectionURL(){
         return "mongodb+srv://" + userName + ":" + userPass +
                 "@cluster0.wdfqa.mongodb.net/" + dataBaseName + "?retryWrites=true&w=majority";
     }

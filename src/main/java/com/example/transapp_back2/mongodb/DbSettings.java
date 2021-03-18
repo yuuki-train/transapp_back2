@@ -1,15 +1,14 @@
-package com.example.transapp_back2.Logic;
+package com.example.transapp_back2.mongodb;
 
-import com.example.transapp_back2.entity.DataBase;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
-public class DbSettings {
+class DbSettings {
 
     private DataBase dataBase;
     private MongoDbSettings mongoDbSettings;
 
-    public MongoCollection<Document> setupDb(String dbCollection){
+    MongoCollection<Document> setupDb(String dbCollection){
         setDataBase(dbCollection);
         return setupMongoDb();
     }
@@ -24,7 +23,7 @@ public class DbSettings {
         return mongoDbSettings.setupMongoDB();
     }
 
-    public void closeDb(){
+    void closeDb(){
         mongoDbSettings.closeMongoDb();
     }
 }

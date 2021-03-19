@@ -6,7 +6,21 @@ import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
 public class Filtering {
-    public FindIterable<Document> filterTrainData(MongoCollection<Document> operableCollection){
+
+    private final MongoCollection<Document> operableCollection;
+
+    public Filtering(MongoCollection<Document> operableCollection){
+        this.operableCollection = operableCollection;
+    }
+
+
+    public FindIterable<Document> filterTrainData(){
         return operableCollection.find(Filters.eq("trainNumber", "MD901"));
     }
+
+
+    public FindIterable<Document> searchStationNameList(String station){
+         return operableCollection.find(Filters.in("stationsOfLine", station));
+    }
+
 }

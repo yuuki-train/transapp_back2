@@ -11,30 +11,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AccessorOfDbTest {
 
     private AccessorOfDb accessorOfDb;
-    //private Method method;
+    private String station;
+
+
 
     @BeforeEach
     private void setUp(){
-        accessorOfDb = new AccessorOfDb("TrainsOfMidosuji");
+        station = "新今宮";
     }
 
     @Test
-    public void getTrainDataForSearch(){
+    public void getTrainDataForSearchTest(){
+        accessorOfDb = new AccessorOfDb("TrainsOfMidosuji");
         List<Document> list = accessorOfDb.getTrainDataForSearch();
         assertEquals(1, list.size());
     }
 
-    /*
     @Test
-    public void getMongoCollection() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        method = SearchDAO.class.getDeclaredMethod("getMongoCollection");
-        method.setAccessible(true);
-        MongoCollection<Document>collection = (MongoCollection<Document>)method.invoke(searchDAO);
-
-        assert()
-
+    public void getLinesAndStationsDataTest(){
+        accessorOfDb = new AccessorOfDb("LinesAndStations");
+        List<Document> list = accessorOfDb.getLinesAndStationsData(station);
+        assertEquals(2, list.size());
     }
-    */
 
 
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public class AccessorOfDb {
     private final String dbCollection;
     private final MongoCollection<Document> operableCollection;
-    private final Filtering filtering;
+    private Filtering filtering;
     private DbSettings dbSettings;
     private FindIterable<Document> dataIterable;
     private List<Document> listForReturn;
@@ -17,7 +17,6 @@ public class AccessorOfDb {
     public AccessorOfDb(String collectionName){
         dbCollection = collectionName;
         operableCollection = getMongoCollection();
-        filtering = new Filtering();
     }
 
     private MongoCollection<Document> getMongoCollection(){
@@ -30,18 +29,22 @@ public class AccessorOfDb {
         return listForReturn;
     }
 
-    public List<Document> getLinesAndStationsData(){
-        getLinesAndStationsDataList();
+    public List<Document> getLinesAndStationsData(String station){
+        getLinesAndStationsDataList(station);
         return listForReturn;
     }
 
+
     private void getTrainDataList (){
-        dataIterable = filtering.filterTrainData(operableCollection);
+        filtering = new Filtering(operableCollection);
+        dataIterable = filtering.filterTrainData();
         createListOfDocument();
     }
 
-    private void getLinesAndStationsDataList(){
-
+    public void getLinesAndStationsDataList(String station){
+        filtering = new Filtering(operableCollection);
+        dataIterable = filtering.searchStationNameList(station);
+        createListOfDocument();
     }
 
     private void createListOfDocument(){

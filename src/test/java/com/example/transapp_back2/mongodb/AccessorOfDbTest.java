@@ -17,7 +17,7 @@ public class AccessorOfDbTest {
 
     @BeforeEach
     private void setUp(){
-        station = "新今宮";
+        station = "天王寺";
     }
 
     @Test
@@ -31,7 +31,7 @@ public class AccessorOfDbTest {
     public void getLinesAndStationsDataTest(){
         accessorOfDb = new AccessorOfDb("LinesAndStations");
         List<Document> list = accessorOfDb.getLinesAndStationsData(station);
-        assertEquals(2, list.size());
+        assertEquals(4, list.size());
     }
 
 

@@ -11,7 +11,6 @@ public class AccessorOfDb {
     private final MongoCollection<Document> operableCollection;
     private Filtering filtering;
     private DbSettings dbSettings;
-    private FindIterable<Document> dataIterable;
     private List<Document> listForReturn;
 
     public AccessorOfDb(String collectionName){
@@ -37,26 +36,34 @@ public class AccessorOfDb {
 
     private void getTrainDataList (){
         filtering = new Filtering(operableCollection);
-        dataIterable = filtering.filterTrainData();
-        createListOfDocument();
+        FindIterable<Document> dataIterable = filtering.filterTrainData();
+        createListOfDocument(dataIterable);
     }
 
     public void getLinesAndStationsDataList(String station){
         filtering = new Filtering(operableCollection);
-        dataIterable = filtering.searchStationNameList(station);
-        createListOfDocument();
+        FindIterable<Document> dataIterable = filtering.searchStationNameList(station);
+        createListOfDocument(dataIterable);
     }
 
-    private void createListOfDocument(){
-        List<Document> listOfDocument = new ArrayList<>();
+    private void createListOfDocument(FindIterable<Document> dataIterable){
+        List<Document> listOfDocument = addListOfDocument(dataIterable);
+        writeListForReturn(listOfDocument);
+    }
+
+    private List<Document> addListOfDocument(FindIterable<Document> dataIterable){
+        List<Document> listForResult = new ArrayList<>();
         for (Document document : dataIterable) {
-            listOfDocument.add(document);
+            listForResult.add(document);
         }
-        listForReturn = listOfDocument;
-        closeDb();
+        return listForResult;
     }
 
-    private void closeDb(){
+    private void writeListForReturn(List<Document> listOfDocument){
+        listForReturn = listOfDocument;
+    }
+
+    public void closeDb(){
         dbSettings.closeDb();
     }
 }

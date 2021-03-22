@@ -38,12 +38,10 @@ class MongoDbSettings {
     private MongoCollection<Document> accessMongoDBCollections(MongoClientSettings mongoClientSettings)  {
         client = MongoClients.create(mongoClientSettings);
         MongoDatabase database = client.getDatabase(dbName);
-        System.out.println(client);
         return database.getCollection(dbCollection);
     }
 
     void closeMongoDb(){
-        System.out.println(client);
         client.close();
     }
 }

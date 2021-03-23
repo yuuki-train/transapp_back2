@@ -1,26 +1,23 @@
 package com.example.transapp_back2.mongodb;
 
-import com.mongodb.client.MongoCollection;
-import org.bson.Document;
-
 class DbSettings {
 
-    private DataBase dataBase;
+    private Database dataBase;
     private MongoDbSettings mongoDbSettings;
 
-    MongoCollection<Document> setupDb(String dbCollection){
+    void setupDb(String dbCollection){
         setDataBase(dbCollection);
-        return setupMongoDb();
+        //return setupMongoDb();
     }
 
     private void setDataBase(String dbCollection){
-        dataBase = new DataBase();
-        dataBase.setDataBaseCollection(dbCollection);
+        dataBase = new Database();
+        dataBase.setDatabaseCollection(dbCollection);
     }
 
-    private MongoCollection<Document> setupMongoDb(){
-        mongoDbSettings = new MongoDbSettings(dataBase);
-        return mongoDbSettings.setupMongoDB();
+    private void setupMongoDb(){
+        mongoDbSettings.getDataFromDb();
+        mongoDbSettings.setUpMongoDB();
     }
 
     void closeDb(){

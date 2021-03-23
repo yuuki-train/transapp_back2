@@ -1,26 +1,26 @@
 package com.example.transapp_back2.mongodb;
 
-class DataBase {
+class Database {
     private final String userName;
     private final String userPass;
     private final String dataBaseName;
     private String dataBaseCollection;
 
-    DataBase(){
+    Database(){
         this.userName = "yuuki";
         this.userPass = "yuukidb";
         this.dataBaseName = "transapp";
     }
 
-    String getDataBaseName(){
+    String getDatabaseName(){
         return dataBaseName;
     }
 
-    String getDataBaseCollection(){
+    String getDatabaseCollection(){
         return dataBaseCollection;
     }
 
-    void setDataBaseCollection(String dbCollection){
+    void setDatabaseCollection(String dbCollection){
         this.dataBaseCollection = dbCollection;
     }
 

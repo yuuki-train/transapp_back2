@@ -1,26 +1,26 @@
 package com.example.transapp_back2.mongodb;
 
 import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
 import org.bson.Document;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class AccessorOfDb {
     private final String dbCollection;
-    private final MongoCollection<Document> operableCollection;
+    //private final MongoCollection<Document> operableCollection;
     private Filtering filtering;
     private DbSettings dbSettings;
     private List<Document> listForReturn;
 
     public AccessorOfDb(String collectionName){
         dbCollection = collectionName;
-        operableCollection = getMongoCollection();
+        //operableCollection = getMongoCollection();
     }
 
-    private MongoCollection<Document> getMongoCollection(){
+    private void getMongoCollection(){
         dbSettings = new DbSettings();
-        return dbSettings.setupDb(dbCollection);
+        //return dbSettings.setupDb(dbCollection);
     }
 
     public List<Document> getTrainDataForSearch(){
@@ -35,13 +35,13 @@ public class AccessorOfDb {
 
 
     private void getTrainDataList (){
-        filtering = new Filtering(operableCollection);
+        //filtering = new Filtering(operableCollection);
         FindIterable<Document> dataIterable = filtering.filterTrainData();
         createListOfDocument(dataIterable);
     }
 
     public void getLinesAndStationsDataList(String station){
-        filtering = new Filtering(operableCollection);
+        //filtering = new Filtering(operableCollection);
         FindIterable<Document> dataIterable = filtering.searchStationNameList(station);
         createListOfDocument(dataIterable);
     }

@@ -5,12 +5,18 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
 
-public class Filtering {
+import java.util.List;
+
+public class FindFromDb {
 
     private final MongoCollection<Document> operableCollection;
 
-    public Filtering(MongoCollection<Document> operableCollection){
+    public FindFromDb(MongoCollection<Document> operableCollection){
         this.operableCollection = operableCollection;
+    }
+
+    public FindIterable<Document> findDataFromDb(List<String> searchFilter){
+        return operableCollection.find(Filters.eq("trainNumber", "MD901"));
     }
 
 

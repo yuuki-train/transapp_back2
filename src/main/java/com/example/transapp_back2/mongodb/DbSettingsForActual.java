@@ -4,7 +4,7 @@ import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
 class DbSettingsForActual implements DbSettings {
-
+    private Database database;
     private MongoDbSettings mongoDbSettings;
     private MongoCollection<Document> setUpResult;
 
@@ -15,11 +15,12 @@ class DbSettingsForActual implements DbSettings {
     }
 
     private void setDatabase(String dbCollection){
-        Database database = new Database();
+        database = new Database();
         database.setDatabaseCollection(dbCollection);
     }
 
     private void setUpMongoDb(){
+        mongoDbSettings = new MongoDbSettingsForActual(database);
         mongoDbSettings.getDataFromDb();
         setUpResult = mongoDbSettings.setUpMongoDb();
     }

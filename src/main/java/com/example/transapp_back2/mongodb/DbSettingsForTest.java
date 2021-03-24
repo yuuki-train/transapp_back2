@@ -4,7 +4,7 @@ import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
 class DbSettingsForTest implements DbSettings {
-    private Database dataBase;
+    private Database database;
     private MongoDbSettingsForTest mongoDbSettings;
     private MongoCollection<Document> setUpResult;
 
@@ -16,8 +16,8 @@ class DbSettingsForTest implements DbSettings {
     }
 
     private void setDatabase(String dbCollection){
-        dataBase = new Database();
-        dataBase.setDatabaseCollection(dbCollection);
+        database = new Database();
+        database.setDatabaseCollection(dbCollection);
     }
 
     private void setUpMongoDb(){
@@ -32,7 +32,7 @@ class DbSettingsForTest implements DbSettings {
 
     String getDbCollection(String dbCollection){
         setDatabase(dbCollection);
-        return dataBase.getDatabaseCollection();
+        return database.getDatabaseCollection();
     }
 
     MongoCollection<Document> getSetUpResult(){

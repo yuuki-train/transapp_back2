@@ -1,38 +1,46 @@
 package com.example.transapp_back2.mongodb;
 
+import com.mongodb.client.MongoCollection;
 import org.bson.Document;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AccessorOfDbTest {
 
-    private AccessorOfDb accessorOfDb;
-    private String station;
+    private DbSettingsForTest dbSettings;
+    private static String dbCollection;
 
-
+    @BeforeAll
+    static void setUpStatic(){
+        dbCollection = "test";
+    }
 
     @BeforeEach
-    private void setUp(){
-        station = "天王寺";
+    public void setUp(){
+        dbSettings = new DbSettingsForTest();
+    }
+
+
+    @Test
+    public void setDatabaseTest(){
+        String result = dbSettings.getDbCollection(dbCollection);
+        assertEquals("test", result);
     }
 
     @Test
-    public void getTrainDataForSearchTest(){
-        accessorOfDb = new AccessorOfDb("TrainsOfMidosuji");
-        List<Document> list = accessorOfDb.getTrainDataForSearch();
-        assertEquals(1, list.size());
+    public void setUpMongoDbTest(){
+        MongoCollection<Document> setUpResult = dbSettings.getSetUpResult();
+        String setUpResultToString = setUpResult.toString();
+        assertTrue(setUpResultToString.startsWith("com.mongodb.client.internal.MongoCollectionImpl"));
     }
 
     @Test
-    public void getLinesAndStationsDataTest(){
-        accessorOfDb = new AccessorOfDb("LinesAndStations");
-        List<Document> list = accessorOfDb.getLinesAndStationsData(station);
-        assertEquals(4, list.size());
+    public void closeMongoDbTest(){
+        String result = dbSettings.getCloseDbResult();
+        assertEquals("closed", result);
     }
-
-
 }

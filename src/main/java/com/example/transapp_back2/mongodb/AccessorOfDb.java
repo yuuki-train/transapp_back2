@@ -1,6 +1,7 @@
 package com.example.transapp_back2.mongodb;
 
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -8,21 +9,23 @@ import java.util.List;
 
 public class AccessorOfDb {
     private final String dbCollection;
-    //private final MongoCollection<Document> operableCollection;
-    private Filtering filtering;
+    private MongoCollection<Document> operableCollection;
+    private FindFromDb findFromDb;
     private DbSettingsForActual dbSettings;
     private List<Document> listForReturn;
 
+    //コンストラクタ
     public AccessorOfDb(String collectionName){
         dbCollection = collectionName;
-        //operableCollection = getMongoCollection();
+        getMongoCollection();
     }
 
     private void getMongoCollection(){
         dbSettings = new DbSettingsForActual();
-        //return dbSettings.setupDb(dbCollection);
+        operableCollection = dbSettings.setUpDb(dbCollection);
     }
 
+    //publicメソッド
     public List<Document> getTrainDataForSearch(){
         getTrainDataList();
         return listForReturn;
@@ -34,33 +37,35 @@ public class AccessorOfDb {
     }
 
 
+
     private void getTrainDataList (){
-        //filtering = new Filtering(operableCollection);
-        FindIterable<Document> dataIterable = filtering.filterTrainData();
+        findFromDb = new FindFromDb(operableCollection);
+        FindIterable<Document> dataIterable = findFromDb.filterTrainData();
+        System.out.println(dataIterable);
         createListOfDocument(dataIterable);
     }
 
     public void getLinesAndStationsDataList(String station){
-        //filtering = new Filtering(operableCollection);
-        FindIterable<Document> dataIterable = filtering.searchStationNameList(station);
+        findFromDb = new FindFromDb(operableCollection);
+        FindIterable<Document> dataIterable = findFromDb.searchStationNameList(station);
+        System.out.println(dataIterable);
         createListOfDocument(dataIterable);
     }
 
-    private void createListOfDocument(FindIterable<Document> dataIterable){
-        List<Document> listOfDocument = addListOfDocument(dataIterable);
-        writeListForReturn(listOfDocument);
+
+    public void findFromDb(List<String> searchFilter){
+        findFromDb = new FindFromDb(operableCollection);
+        FindIterable<Document> dataIterable = findFromDb.findDataFromDb(searchFilter);
+        createListOfDocument(dataIterable);
     }
 
-    private List<Document> addListOfDocument(FindIterable<Document> dataIterable){
+
+    private void createListOfDocument(FindIterable<Document> dataIterable){
         List<Document> listForResult = new ArrayList<>();
         for (Document document : dataIterable) {
             listForResult.add(document);
         }
-        return listForResult;
-    }
-
-    private void writeListForReturn(List<Document> listOfDocument){
-        listForReturn = listOfDocument;
+        listForReturn = listForResult;
     }
 
     public void closeDb(){

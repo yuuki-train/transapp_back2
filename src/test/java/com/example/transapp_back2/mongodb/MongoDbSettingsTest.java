@@ -22,7 +22,7 @@ public class MongoDbSettingsTest {
     private static String connectionURL;
     private ConnectionString connectionString;
     private MongoClientSettings mongoClientSettings;
-    private MongoClient client;
+    private MongoClient mongoClient;
 
     @BeforeAll
     static void setUpStatic(){
@@ -54,41 +54,41 @@ public class MongoDbSettingsTest {
     }
 
     @Test
-    public void createClientTest(){
+    public void createMongoClientTest(){
         connectionString = new ConnectionString(connectionURL);
         mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).retryWrites(true).build();
-        MongoClient clientForTest = mongoDbSettings.getClient(mongoClientSettings);
-        String clientToString = clientForTest.toString();
-        assertTrue(clientToString.startsWith("com.mongodb.client.internal.MongoClientImpl"));
+        MongoClient mongoClientForTest = mongoDbSettings.getMongoClient(mongoClientSettings);
+        String mongoClientToString = mongoClientForTest.toString();
+        assertTrue(mongoClientToString.startsWith("com.mongodb.client.internal.MongoClientImpl"));
     }
 
     @Test
-    public void createDataBaseTest(){
+    public void createMongoDataBaseTest(){
         connectionString = new ConnectionString(connectionURL);
         mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).retryWrites(true).build();
-        client = MongoClients.create(mongoClientSettings);
-        MongoDatabase databaseForTest = mongoDbSettings.getDatabase(client, dbName);
-        String databaseToString = databaseForTest.toString();
-        assertTrue(databaseToString.startsWith("com.mongodb.client.internal.MongoDatabaseImpl"));
+        mongoClient = MongoClients.create(mongoClientSettings);
+        MongoDatabase mongoDatabaseForTest = mongoDbSettings.getMongoDatabase(mongoClient, dbName);
+        String mongoDatabaseToString = mongoDatabaseForTest.toString();
+        assertTrue(mongoDatabaseToString.startsWith("com.mongodb.client.internal.MongoDatabaseImpl"));
     }
 
     @Test
-    public void createCollectionTest(){
+    public void createMongoCollectionTest(){
         connectionString = new ConnectionString(connectionURL);
         mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).retryWrites(true).build();
-        client = MongoClients.create(mongoClientSettings);
-        MongoDatabase database = client.getDatabase(dbName);
-        MongoCollection<Document> collectionForTest = mongoDbSettings.getCollection(database, dbCollection);
-        String collectionToString = collectionForTest.toString();
-        assertTrue(collectionToString.startsWith("com.mongodb.client.internal.MongoCollectionImpl"));
+        mongoClient = MongoClients.create(mongoClientSettings);
+        MongoDatabase database = mongoClient.getDatabase(dbName);
+        MongoCollection<Document> mongoCollectionForTest = mongoDbSettings.getMongoCollection(database, dbCollection);
+        String mongoCollectionToString = mongoCollectionForTest.toString();
+        assertTrue(mongoCollectionToString.startsWith("com.mongodb.client.internal.MongoCollectionImpl"));
     }
 
     @Test
     public void closeMongoDbTest(){
         connectionString = new ConnectionString(connectionURL);
         mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).retryWrites(true).build();
-        client = MongoClients.create(mongoClientSettings);
-        String result = mongoDbSettings.closeDbTest(client);
+        mongoClient = MongoClients.create(mongoClientSettings);
+        String result = mongoDbSettings.closeDbTest(mongoClient);
         assertEquals("closed", result);
     }
 }

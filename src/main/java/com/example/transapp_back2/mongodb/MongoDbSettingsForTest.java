@@ -15,9 +15,9 @@ class MongoDbSettingsForTest implements MongoDbSettings {
     private String connectionURL;
     private ConnectionString connectionString;
     private MongoClientSettings mongoClientSettings;
-    private MongoClient client;
-    private MongoDatabase database;
-    private MongoCollection<Document> collection;
+    private MongoClient mongoClient;
+    private MongoDatabase mongoDatabase;
+    private MongoCollection<Document> mongoCollection;
 
     public void getDataFromDb(){
         dbName = "transapp";
@@ -28,10 +28,10 @@ class MongoDbSettingsForTest implements MongoDbSettings {
     public MongoCollection<Document> setUpMongoDb(){
         createConnectionString();
         setMongoClientSettings();
-        createClient();
-        createDataBase();
-        createCollection();
-        return collection;
+        createMongoClient();
+        createMongoDatabase();
+        createMongoCollection();
+        return mongoCollection;
     }
 
     private void createConnectionString(){
@@ -45,20 +45,20 @@ class MongoDbSettingsForTest implements MongoDbSettings {
                 .build();
     }
 
-    private void createClient() {
-        client =  MongoClients.create(mongoClientSettings);
+    private void createMongoClient() {
+        mongoClient =  MongoClients.create(mongoClientSettings);
     }
 
-    private void createDataBase(){
-        database = client.getDatabase(dbName);
+    private void createMongoDatabase(){
+        mongoDatabase = mongoClient.getDatabase(dbName);
     }
 
-    private void createCollection(){
-        collection = database.getCollection(dbCollection);
+    private void createMongoCollection(){
+        mongoCollection = mongoDatabase.getCollection(dbCollection);
     }
 
     public void closeMongoDb(){
-        client.close();
+        mongoClient.close();
     }
 
     ConnectionString getConnectionString(String connectionURL){
@@ -73,27 +73,27 @@ class MongoDbSettingsForTest implements MongoDbSettings {
         return mongoClientSettings;
     }
 
-    MongoClient getClient(MongoClientSettings mongoClientSettings){
+    MongoClient getMongoClient(MongoClientSettings mongoClientSettings){
         this.mongoClientSettings = mongoClientSettings;
-        createClient();
-        return client;
+        createMongoClient();
+        return mongoClient;
     }
 
-    MongoDatabase getDatabase(MongoClient client, String dbName){
-        this.client = client;
+    MongoDatabase getMongoDatabase(MongoClient mongoClient, String dbName){
+        this.mongoClient = mongoClient;
         this.dbName = dbName;
-        createDataBase();
-        return database;
+        createMongoDatabase();
+        return mongoDatabase;
     }
-    MongoCollection<Document> getCollection(MongoDatabase database, String dbCollection){
-        this.database = database;
+    MongoCollection<Document> getMongoCollection(MongoDatabase mongoDatabase, String dbCollection){
+        this.mongoDatabase = mongoDatabase;
         this.dbCollection = dbCollection;
-        createCollection();
-        return collection;
+        createMongoCollection();
+        return mongoCollection;
     }
 
     String closeDbTest(MongoClient client){
-        this.client = client;
+        this.mongoClient = client;
         closeMongoDb();
         return "closed";
     }

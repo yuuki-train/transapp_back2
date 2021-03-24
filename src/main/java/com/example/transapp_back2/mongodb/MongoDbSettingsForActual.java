@@ -10,29 +10,34 @@ import org.bson.Document;
 
 class MongoDbSettingsForActual implements MongoDbSettings {
 
+    private final Database database;
     private String dbName;
     private String dbCollection;
     private String connectionURL;
     private ConnectionString connectionString;
     private MongoClientSettings mongoClientSettings;
-    private MongoClient client;
-    private MongoDatabase database;
-    private MongoCollection<Document> collection;
+    private MongoClient mongoClient;
+    private MongoDatabase mongoDatabase;
+    private MongoCollection<Document> mongoCollection;
+
+    public MongoDbSettingsForActual(Database database){
+        this.database = database;
+    }
 
     public void getDataFromDb(){
-        Database dataBase = new Database();
-        dbName = dataBase.getDatabaseName();
-        dbCollection = dataBase.getDatabaseCollection();
-        connectionURL = dataBase.getConnectionURL();
+        dbName = database.getDatabaseName();
+        dbCollection = database.getDatabaseCollection();
+        System.out.println(dbCollection);
+        connectionURL = database.getConnectionURL();
     }
 
     public MongoCollection<Document> setUpMongoDb(){
         createConnectionString();
         setMongoClientSettings();
-        createClient();
-        createDataBase();
-        createCollection();
-        return collection;
+        createMongoClient();
+        createMongoDatabase();
+        createMongoCollection();
+        return mongoCollection;
     }
 
     private void createConnectionString(){
@@ -46,19 +51,19 @@ class MongoDbSettingsForActual implements MongoDbSettings {
                 .build();
     }
 
-    private void createClient() {
-        client =  MongoClients.create(mongoClientSettings);
+    private void createMongoClient() {
+        mongoClient =  MongoClients.create(mongoClientSettings);
     }
 
-    private void createDataBase(){
-        database = client.getDatabase(dbName);
+    private void createMongoDatabase(){
+        mongoDatabase = mongoClient.getDatabase(dbName);
     }
 
-    private void createCollection(){
-        collection = database.getCollection(dbCollection);
+    private void createMongoCollection(){
+        mongoCollection = mongoDatabase.getCollection(dbCollection);
     }
 
     public void closeMongoDb(){
-        client.close();
+        mongoClient.close();
     }
 }

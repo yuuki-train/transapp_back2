@@ -25,13 +25,12 @@ class MongoDbSettingsForTest implements MongoDbSettings {
         connectionURL = "mongodb+srv://yuuki:yuukidb@cluster0.wdfqa.mongodb.net/transapp?retryWrites=true&w=majority";
     }
 
-    public MongoCollection<Document> setUpMongoDB(){
+    public MongoCollection<Document> setUpMongoDb(){
         createConnectionString();
         setMongoClientSettings();
         createClient();
         createDataBase();
         createCollection();
-        System.out.println(collection.toString());
         return collection;
     }
 

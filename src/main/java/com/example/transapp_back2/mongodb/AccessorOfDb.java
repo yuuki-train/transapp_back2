@@ -10,7 +10,7 @@ public class AccessorOfDb {
     private final String dbCollection;
     //private final MongoCollection<Document> operableCollection;
     private Filtering filtering;
-    private DbSettings dbSettings;
+    private DbSettingsForActual dbSettings;
     private List<Document> listForReturn;
 
     public AccessorOfDb(String collectionName){
@@ -19,7 +19,7 @@ public class AccessorOfDb {
     }
 
     private void getMongoCollection(){
-        dbSettings = new DbSettings();
+        dbSettings = new DbSettingsForActual();
         //return dbSettings.setupDb(dbCollection);
     }
 

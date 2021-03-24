@@ -26,7 +26,7 @@ class MongoDbSettingsForActual implements MongoDbSettings {
         connectionURL = dataBase.getConnectionURL();
     }
 
-    public MongoCollection<Document> setUpMongoDB(){
+    public MongoCollection<Document> setUpMongoDb(){
         createConnectionString();
         setMongoClientSettings();
         createClient();

@@ -23,7 +23,6 @@ public class MongoDbSettingsTest {
     private ConnectionString connectionString;
     private MongoClientSettings mongoClientSettings;
     private MongoClient client;
-    private MongoDatabase database;
 
     @BeforeAll
     static void setUpStatic(){
@@ -78,7 +77,7 @@ public class MongoDbSettingsTest {
         connectionString = new ConnectionString(connectionURL);
         mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).retryWrites(true).build();
         client = MongoClients.create(mongoClientSettings);
-        database = client.getDatabase(dbName);
+        MongoDatabase database = client.getDatabase(dbName);
         MongoCollection<Document> collectionForTest = mongoDbSettings.getCollection(database, dbCollection);
         String collectionToString = collectionForTest.toString();
         assertTrue(collectionToString.startsWith("com.mongodb.client.internal.MongoCollectionImpl"));

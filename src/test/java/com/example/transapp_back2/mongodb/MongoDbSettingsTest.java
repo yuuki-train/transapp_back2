@@ -20,15 +20,21 @@ public class MongoDbSettingsTest {
     private static String dbName;
     private static String dbCollection;
     private static String connectionURL;
-    private ConnectionString connectionString;
-    private MongoClientSettings mongoClientSettings;
-    private MongoClient mongoClient;
+    private static ConnectionString connectionString;
+    private static MongoClientSettings mongoClientSettings;
+    private static MongoClient mongoClient;
+    private static MongoDatabase mongoDatabase;
 
     @BeforeAll
     static void setUpStatic(){
         dbName = "transapp";
         dbCollection = "test";
         connectionURL = "mongodb+srv://yuuki:yuukidb@cluster0.wdfqa.mongodb.net/transapp?retryWrites=true&w=majority";
+        connectionString = new ConnectionString(connectionURL);
+        mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString)
+                .retryWrites(true).build();
+        mongoClient = MongoClients.create(mongoClientSettings);
+        mongoDatabase = mongoClient.getDatabase(dbName);
     }
 
     @BeforeEach
@@ -47,7 +53,6 @@ public class MongoDbSettingsTest {
 
     @Test
     public void setMongoClientSettingsTest(){
-        connectionString = new ConnectionString(connectionURL);
         MongoClientSettings mongoClientSettingsForTest = mongoDbSettings.getMongoClientSettings(connectionString);
         String mongoClientSettingsToString = mongoClientSettingsForTest.toString();
         assertTrue(mongoClientSettingsToString.startsWith("com.mongodb.MongoClientSettings"));
@@ -55,8 +60,6 @@ public class MongoDbSettingsTest {
 
     @Test
     public void createMongoClientTest(){
-        connectionString = new ConnectionString(connectionURL);
-        mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).retryWrites(true).build();
         MongoClient mongoClientForTest = mongoDbSettings.getMongoClient(mongoClientSettings);
         String mongoClientToString = mongoClientForTest.toString();
         assertTrue(mongoClientToString.startsWith("com.mongodb.client.internal.MongoClientImpl"));
@@ -64,9 +67,6 @@ public class MongoDbSettingsTest {
 
     @Test
     public void createMongoDataBaseTest(){
-        connectionString = new ConnectionString(connectionURL);
-        mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).retryWrites(true).build();
-        mongoClient = MongoClients.create(mongoClientSettings);
         MongoDatabase mongoDatabaseForTest = mongoDbSettings.getMongoDatabase(mongoClient, dbName);
         String mongoDatabaseToString = mongoDatabaseForTest.toString();
         assertTrue(mongoDatabaseToString.startsWith("com.mongodb.client.internal.MongoDatabaseImpl"));
@@ -74,20 +74,13 @@ public class MongoDbSettingsTest {
 
     @Test
     public void createMongoCollectionTest(){
-        connectionString = new ConnectionString(connectionURL);
-        mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).retryWrites(true).build();
-        mongoClient = MongoClients.create(mongoClientSettings);
-        MongoDatabase database = mongoClient.getDatabase(dbName);
-        MongoCollection<Document> mongoCollectionForTest = mongoDbSettings.getMongoCollection(database, dbCollection);
+        MongoCollection<Document> mongoCollectionForTest = mongoDbSettings.getMongoCollection(mongoDatabase, dbCollection);
         String mongoCollectionToString = mongoCollectionForTest.toString();
         assertTrue(mongoCollectionToString.startsWith("com.mongodb.client.internal.MongoCollectionImpl"));
     }
 
     @Test
     public void closeMongoDbTest(){
-        connectionString = new ConnectionString(connectionURL);
-        mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).retryWrites(true).build();
-        mongoClient = MongoClients.create(mongoClientSettings);
         String result = mongoDbSettings.closeDbTest(mongoClient);
         assertEquals("closed", result);
     }

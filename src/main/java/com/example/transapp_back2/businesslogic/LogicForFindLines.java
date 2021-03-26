@@ -1,6 +1,6 @@
 package com.example.transapp_back2.businesslogic;
 
-import com.example.transapp_back2.mongodb.AccessorOfDb;
+import com.example.transapp_back2.mongodb.AccessorOfDbForActual;
 import org.bson.Document;
 
 import java.util.List;
@@ -11,12 +11,12 @@ public class LogicForFindLines {
     private final String destination;
     private List<Document> linesOfDepartStation;
     private List<Document> linesOfArriveStation;
-    private final AccessorOfDb accessorOfDb;
+    private final AccessorOfDbForActual accessorOfDb;
 
     public LogicForFindLines(String departure, String destination) {
         this.departure = departure;
         this.destination = destination;
-        accessorOfDb = new AccessorOfDb("LinesAndStations");
+        accessorOfDb = new AccessorOfDbForActual();
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.transapp_back2.mongodb;
 
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import org.junit.jupiter.api.BeforeAll;
@@ -31,12 +32,15 @@ public class AccessorOfDbTest {
         assertEquals("test", result);
     }
 
+    /*
     @Test
-    public void setUpMongoDbTest(){
-        MongoCollection<Document> setUpResult = dbSettings.getSetUpResult();
-        String setUpResultToString = setUpResult.toString();
-        assertTrue(setUpResultToString.startsWith("com.mongodb.client.internal.MongoCollectionImpl"));
+    public void FindFromDbTest(){
+       FindIterable<Document> findIterable = ;
+        String findIterableToString = findIterable.toString();
+        assertTrue(setUpResultToString.startsWith("com.mongodb.client.internal.FindIterableImpl"));
     }
+
+     */
 
     @Test
     public void closeMongoDbTest(){

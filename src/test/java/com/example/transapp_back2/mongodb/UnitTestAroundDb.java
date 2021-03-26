@@ -1,6 +1,9 @@
 package com.example.transapp_back2.mongodb;
 
+import com.example.transapp_back2.entity.LinesAndStations;
+import com.mongodb.client.FindIterable;
 import org.bson.Document;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,24 +15,29 @@ public class UnitTestAroundDb {
 
     private AccessorOfDb accessorOfDb;
     private String station;
-
+    private FindIterable findIterable;
+    private String collectionName;
 
 
     @BeforeEach
-    private void setUp(){
+    private void setUp() {
         station = "天王寺";
+        accessorOfDb = new AccessorOfDbForActual();
     }
+
 
     @Test
     public void getTrainDataForSearchTest(){
-        accessorOfDb = new AccessorOfDb("TrainsOfMidosuji");
+        collectionName = "TrainsOfMidosuji";
+        accessorOfDb.setDbPreparation(collectionName);
         List<Document> list = accessorOfDb.getTrainDataForSearch();
         assertEquals(1, list.size());
     }
 
     @Test
     public void getLinesAndStationsDataTest(){
-        accessorOfDb = new AccessorOfDb("LinesAndStations");
+        collectionName = "LinesAndStations";
+        accessorOfDb.setDbPreparation(collectionName);
         List<Document> list = accessorOfDb.getLinesAndStationsData(station);
         assertEquals(4, list.size());
     }
